@@ -3,7 +3,6 @@ package com.brunokudaka.workshopmongo.resources;
 import com.brunokudaka.workshopmongo.domain.User;
 import com.brunokudaka.workshopmongo.dto.UserDTO;
 import com.brunokudaka.workshopmongo.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +42,14 @@ public class UserResource {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id){
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDTO, @PathVariable String id){
+        User user = service.fromDTO(userDTO);
+        user.setId(id);
+        service.update(user);
         return ResponseEntity.noContent().build();
     }
 
